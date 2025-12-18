@@ -1,0 +1,1 @@
+ALTER TABLE usuarios ADD role VARCHAR(15) NOT NULL;
