@@ -18,7 +18,7 @@ public class MedicoController {
     @Autowired
     private MedicoRepository repository;
 
-    @PostMapping
+    @PostMapping("/get")
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastrosMedicos dados, UriComponentsBuilder uriBuilder){
         var medico = new Medico(dados);
@@ -29,7 +29,7 @@ public class MedicoController {
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));
     }
 
-    @GetMapping
+    @GetMapping("/getList")
     public ResponseEntity<Page<DadosListagemMedicos>> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao){
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemMedicos::new);
         return ResponseEntity.ok(page);
@@ -41,7 +41,7 @@ public class MedicoController {
         return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
 
-    @PutMapping
+    @PutMapping("/update")
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados) {
         var medico = repository.getReferenceById(dados.id());
